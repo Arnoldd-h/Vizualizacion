@@ -12,16 +12,13 @@ Arnoldd Hernández  - `arnoldd.hernandez@est.ikiam.edu.ec`
 
 ## Librerias
 ```{r}
-library(ggpubr)
-library(patchwork)   
-library(ggplot2)
-library(grid)
-library(gridExtra)
-library(ggrepel)
+library(ggpubr); library(patchwork); library(ggplot2); library(grid)
+library(gridExtra); library(ggrepel)
 
 ```
 
 ## Data
+En este trabajo se replican algunas gráficas que muestran la relación entre diferentes variables usando datos preinstalados en R. Las gráficas se realizan con el paquete ggplot2 y se analizan brevemente sus resultados.
 
 -**ToothGrowth:** contiene la longitud de los odontoblastos (células responsables del crecimiento dental) en 60 cobayos. Cada animal recibió uno de tres niveles de dosis de vitamina C (0.5, 1 y 2 mg/día) por uno de dos métodos de entrega, jugo de naranja o ácido ascórbico (una forma de vitamina C y codificada como VC). Tiene 60 observaciones y 3 variables: len (longitud del diente), supp (tipo de suplemento) y dose (dosis de vitamina C).
 
@@ -45,3 +42,31 @@ data("diamonds")
 
 head(diamonds, n=4)
 ```
+
+## Barplots
+
+
+Se hace este cambio para que la columna cyl se trate como una variable categórica y no como una variable numérica. Esto afecta a cómo se agrupan y colorean los puntos en el diagrama de dispersión. Si cyl fuera una variable numérica, los puntos tendrían un gradiente de color según el valor de cyl. Al convertir cyl en un factor, los puntos tienen colores distintos según el nivel de cyl.
+```{r}
+dfm <- mtcars
+# Se onvierte la variable cyl a factor
+dfm$cyl <- as.factor(dfm$cyl)
+# Agregar las columnas de nombre
+dfm$name <- rownames(dfm)
+```
+
+```{r}
+ggplot(dfm, aes(x = name, y = mpg, fill = cyl)) + # se define los datos y las variables
+  geom_bar(stat = "identity", position = "dodge", sort.by.groups = TRUE) + # se crea las barras y las ordena por grupos
+  theme(legend.position = "right", # se mueve la leyenda a la derecha
+        axis.text.x = element_text(angle = 90)) + # se rota los nombres del eje x
+  labs(title = "Consumo de combustible por modelo y cilindros", # se pone el título
+       x = "Modelo", # se agrega el nombre del eje x
+       y = "Millas por galón", # se agrega el nombre del eje y
+       fill = "Cilindros") # se agrega el nombre de la leyenda
+```
+La gráfica muestra el consumo de combustible por modelo y cilindros de diferentes coches. Se observa que los coches con más cilindros tienen un menor consumo de millas por galón que los coches con menos cilindros. Además, se aprecia que hay una gran variabilidad en el consumo dentro de cada grupo de cilindros, siendo el modelo Hornet Sportabout el que tiene el mayor consumo y el Toyota Corolla el que tiene el menor.
+
+Estos resultados indican que existe una relación inversa entre el número de cilindros y el consumo de combustible, lo que confirma la hipótesis planteada. Una posible explicación es que los coches con más cilindros tienen motores más potentes y pesados, lo que implica un mayor gasto energético. Esta relación también se ha encontrado en otros estudios previos sobre eficiencia energética en vehículos.
+
+
