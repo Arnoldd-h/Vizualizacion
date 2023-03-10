@@ -11,9 +11,8 @@ output:
 Arnoldd Hernández  - `arnoldd.hernandez@est.ikiam.edu.ec` 
 
 ## Librerias
-```{r}
-library(ggpubr); library(patchwork); library(ggplot2); library(grid)
-library(gridExtra); library(ggrepel)
+```{r, results='hide'}
+library(ggpubr); library(patchwork); library(ggplot2); library(grid); library(cowplot);library(gridExtra); library(ggrepel)
 
 ```
 
@@ -47,7 +46,7 @@ head(diamonds, n=4)
 
 
 Se hace este cambio para que la columna cyl se trate como una variable categórica y no como una variable numérica. Esto afecta a cómo se agrupan y colorean los puntos en el diagrama de dispersión. Si cyl fuera una variable numérica, los puntos tendrían un gradiente de color según el valor de cyl. Al convertir cyl en un factor, los puntos tienen colores distintos según el nivel de cyl.
-```{r echo = FALSE}
+```{r, results='hide'}
 data("mtcars")
 mtcars$name <- rownames(mtcars)
 mtcars$cyl <- as.factor(mtcars$cyl)
@@ -221,5 +220,21 @@ La gráfica muestra la distribución conjunta del tiempo de espera y el tiempo d
 
 Estos resultados indican que el géiser Old Faithful tiene dos modos distintos de funcionamiento, uno más rápido y otro más lento, en donde los valores de densidad reflejan la frecuencia relativa de cada modo y sugieren que el modo rápido es más común que el modo lento.
 
+#Grafica compuesta
+
+
+
+```{r, results='hide'}
+pdf("plots/multiplot.pdf")
+par(mfrow=c(3,1)) # 3 filas y 1 columna
+plot(dfm1)
+plot(dm)
+plot(dfm2)
+par(mfrow=c(3,1)) # nueva página con 3 filas y 1 columna
+plot(pt)
+plot(dt)
+plot(hm)
+dev.off()
+```
 
 
