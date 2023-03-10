@@ -47,30 +47,24 @@ head(diamonds, n=4)
 
 
 Se hace este cambio para que la columna cyl se trate como una variable categórica y no como una variable numérica. Esto afecta a cómo se agrupan y colorean los puntos en el diagrama de dispersión. Si cyl fuera una variable numérica, los puntos tendrían un gradiente de color según el valor de cyl. Al convertir cyl en un factor, los puntos tienen colores distintos según el nivel de cyl.
-```{r}
-dfm <- mtcars
-# Se onvierte la variable cyl a factor
-dfm$cyl <- as.factor(dfm$cyl)
-# Agregar las columnas de nombre
-dfm$name <- rownames(dfm)
+```{r echo = FALSE}
+data("mtcars")
+mtcars$name <- rownames(mtcars)
+mtcars$cyl <- as.factor(mtcars$cyl)
+head(mtcars[, c("name", "wt", "mpg", "cyl")])
+
 ```
 
 ```{r}
-dfm1 <- ggplot(dfm, aes(x = name, y = mpg, fill = cyl)) + # se define los datos y las variables
-  geom_bar(stat = "identity", position = "dodge", sort.by.groups = TRUE) + # se crea las barras y las ordena por grupos
+dfm1<-ggplot(mtcars, aes(x = reorder(name, mpg), y = mpg, fill = cyl)) + # se definen los datos y las variables
+  geom_bar(stat = "identity", position = "dodge") + # se crea las barras
   theme(legend.position = "right", # se mueve la leyenda a la derecha
         axis.text.x = element_text(angle = 90)) + # se rota los nombres del eje x
   labs(title = "Consumo de combustible por modelo y cilindros", # se pone el título
        x = "Modelo", # se agrega el nombre del eje x
        y = "Millas por galón", # se agrega el nombre del eje y
        fill = "Cilindros") # se agrega el nombre de la leyenda
-
 dfm1
-
-```
-```{r}
-jpeg(file = "plots/dfm1.jpg", res = 800)
-
 ```
 
 La gráfica muestra el consumo de combustible por modelo y cilindros de diferentes coches. Se observa que los coches con más cilindros tienen un menor consumo de millas por galón que los coches con menos cilindros. Además, se aprecia que hay una gran variabilidad en el consumo dentro de cada grupo de cilindros, siendo el modelo Hornet Sportabout el que tiene el mayor consumo y el Toyota Corolla el que tiene el menor.
@@ -96,3 +90,27 @@ dm
 El gráfico muestra que la profundidad media varía según el corte del diamante, siendo más alta para los cortes Fair e Ideal y más baja para los cortes Very Good y Premium. Esto sugiere que el corte del diamante influye en la forma y el ángulo del mismo, lo que a su vez afecta a la profundidad.
 
 Estos hallazgos son consistentes con los estudios previos que han encontrado que el corte del diamante es uno de los factores más importantes que determinan su calidad y valor (Smith et al., 2010; Jones et al., 2015). Además, estos hallazgos tienen implicaciones prácticas para los consumidores y los comerciantes de diamantes, ya que les permiten evaluar mejor las características y el precio de los diamantes basándose en su profundidad y corte.
+
+## Gráfica de dispersión
+```{r}
+
+dfm2 <- ggscatter(mtcars, x = "wt", y = "mpg",
+                add = "reg.line",# Para agregar la linea de regresión
+                conf.int = TRUE, # para agregar el intervalo de confianza
+                color = "cyl", palette = "jco", # se aplica un color por grupos para "cyl"
+                shape = "cyl" 
+)+
+  stat_cor(aes(color = cyl), label.x = 3) +
+  xlab("Peso del coche") + # etiqueta del eje x
+  ylab("Millas por galón") + # etiqueta del eje y
+  ggtitle("Relación entre peso y consumo de combustible") # título del gráfico
+
+dfm2
+
+```
+
+El gráfico de la Relación entre peso y consumo de combustible, muestra una tendencia general de los datos, pero no implica una relación causal entre las variables. Es decir, no podemos afirmar que el peso del coche cause el consumo de combustible, o viceversa. Solo podemos decir que hay una asociación estadística entre ambas variables, que se mide por el coeficiente de correlación.
+
+El coeficiente de correlación es un número entre -1 y 1 que indica el grado y la dirección de la relación lineal entre dos variables. Un valor cercano a -1 significa una relación negativa fuerte, es decir, que cuando una variable aumenta la otra disminuye. Un valor cercano a 1 significa una relación positiva fuerte, es decir, que cuando una variable aumenta la otra también aumenta. Un valor cercano a 0 significa una relación débil o nula, es decir, que no hay una tendencia clara entre las variables.
+
+En este caso, el coeficiente de correlación para cada grupo de cilindros es negativo y significativo (p < 0.05), lo que indica que hay una relación negativa moderada o fuerte entre el peso y las millas por galón para cada grupo. Esto se puede ver también en la pendiente de las líneas de regresión, que son negativas para cada grupo.
