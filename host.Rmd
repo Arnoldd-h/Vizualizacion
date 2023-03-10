@@ -63,7 +63,11 @@ dfm1<-ggplot(mtcars, aes(x = reorder(name, mpg), y = mpg, fill = cyl)) + # se de
   labs(title = "Consumo de combustible por modelo y cilindros", # se pone el título
        x = "Modelo", # se agrega el nombre del eje x
        y = "Millas por galón", # se agrega el nombre del eje y
-       fill = "Cilindros") # se agrega el nombre de la leyenda
+       fill = "Cilindros")+ # se agrega el nombre de la leyenda
+      theme(axis.text = element_text(size = 8),
+            axis.title = element_text(size = 8),
+            title = element_text(size = 8))
+
 dfm1
 ```
 
@@ -82,7 +86,10 @@ dm <-ggplot(diamonds, aes(x = depth, fill = cut)) +
   theme_minimal() +
   scale_x_continuous(limits=c(55,70), breaks=seq(55,70,5)) +
   scale_fill_brewer(palette="Set1") +
-  guides(fill=guide_legend(title="Corte"))
+  guides(fill=guide_legend(title="Corte"))+
+  theme(axis.text = element_text(size = 8),
+            axis.title = element_text(size = 8),
+            title = element_text(size = 8))
 dm
 ```
 
@@ -103,8 +110,10 @@ dfm2 <- ggscatter(mtcars, x = "wt", y = "mpg",
   stat_cor(aes(color = cyl), label.x = 3) +
   xlab("Peso del coche") + # etiqueta del eje x
   ylab("Millas por galón") + # etiqueta del eje y
-  ggtitle("Relación entre peso y consumo de combustible") # título del gráfico
-
+  ggtitle("Relación entre peso y consumo de combustible")+ #título del gráfico
+theme(axis.text = element_text(size = 8),
+            axis.title = element_text(size = 8),
+            title = element_text(size = 8))
 dfm2
 
 ```
@@ -127,7 +136,10 @@ dt <- ggdotplot(ToothGrowth, x = "dose", y = "len",
            y = "Longitud del diente (mm)", 
            title = "Efecto de la vitamina C en el crecimiento del diente")+
       # para definir una paleta de colores
-         scale_color_manual(values = c( "blue","green", "black"))
+         scale_color_manual(values = c( "blue","green", "black"))+
+            theme(axis.text = element_text(size = 8),
+            axis.title = element_text(size = 8),
+            title = element_text(size = 8))
 dt 
 ```
 
@@ -169,7 +181,9 @@ p2 <- ggplot(df, aes(x, y)) +
 # Se combinan las dos gráficas usando annotation_custom()
 pt<- p1 + annotation_custom(ggplotGrob(p2), xmin = 1, xmax = 3, ymin = -0.3, ymax = 0.6)+
   
-  labs(title = "Relación no lineal y oscilante entre x-y con zoom en la región baja x")
+  labs(title = "Relación no lineal y oscilante entre x-y con zoom en la región baja x")+ theme(axis.text = element_text(size = 8),
+            axis.title = element_text(size = 8),
+            title = element_text(size = 5))
 pt
 
 ```
@@ -194,7 +208,10 @@ hm <- ggplot(faithfuld, aes(eruptions, waiting)) +
   labs(title = "Datos del géiser Old Faithful",
               x = "Tiempo de espera hasta la próxima erupción (en minutos)",
               y = "Tiempo de erupción (en minutos)",
-              fill = "density")
+              fill = "density")+
+            theme(axis.text = element_text(size = 8),
+            axis.title = element_text(size = 8),
+            title = element_text(size = 6))
 hm
 
 ```
@@ -203,3 +220,6 @@ hm
 La gráfica muestra la distribución conjunta del tiempo de espera y el tiempo de erupción del géiser Old Faithful. Se utiliza un raster con una escala de colores para representar la densidad de los datos. La densidad se calculó en unidades de observaciones por minuto cuadrado y se redondeó a dos decimales. Se observa que hay dos zonas con mayor densidad, una con tiempos cortos (menores a 2 minutos) y otra con tiempos largos (mayores a 4 minutos) tanto para el tiempo de espera como para el tiempo de erupción. Los valores máximos de densidad son 0.03 para la zona corta y 0.02 para la zona larga, mientras que el valor mínimo es 0 para las zonas intermedias donde no hay datos.
 
 Estos resultados indican que el géiser Old Faithful tiene dos modos distintos de funcionamiento, uno más rápido y otro más lento, en donde los valores de densidad reflejan la frecuencia relativa de cada modo y sugieren que el modo rápido es más común que el modo lento.
+
+
+
