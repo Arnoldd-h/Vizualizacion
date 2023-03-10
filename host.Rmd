@@ -179,3 +179,27 @@ La gráfica  muestra la relación entre dos variables X y Y generadas aleatoriam
 La parte grande muestra todos los puntos (x, y) con una transparencia de 0.3 y una línea suavizada que ajusta la tendencia general. Se observa que la relación entre x e y es no lineal y oscilante, con mayor variabilidad para valores pequeños de x.
 
 La parte pequeña muestra un zoom de la región donde x está entre 0 y 0.5 e y está entre -0.3 y 0.6. Se elimina el nombre de los ejes para evitar redundancia. Se aprecia mejor el patrón sinusoidal de la relación entre x e y.
+
+## Mapa de calor
+```{r}
+
+#Se usan los datos faithfuld, donde las variables 
+# eruptions y waiting se mapean a los ejes x e y, 
+hm <- ggplot(faithfuld, aes(eruptions, waiting)) + 
+  geom_raster(aes(fill = density))+
+
+  theme_minimal()+ # Se cambia el tema a minimal
+
+# Se añade un título y etiquetas a los ejes
+  labs(title = "Datos del géiser Old Faithful",
+              x = "Tiempo de espera hasta la próxima erupción (en minutos)",
+              y = "Tiempo de erupción (en minutos)",
+              fill = "density")
+hm
+
+```
+
+
+La gráfica muestra la distribución conjunta del tiempo de espera y el tiempo de erupción del géiser Old Faithful. Se utiliza un raster con una escala de colores para representar la densidad de los datos. La densidad se calculó en unidades de observaciones por minuto cuadrado y se redondeó a dos decimales. Se observa que hay dos zonas con mayor densidad, una con tiempos cortos (menores a 2 minutos) y otra con tiempos largos (mayores a 4 minutos) tanto para el tiempo de espera como para el tiempo de erupción. Los valores máximos de densidad son 0.03 para la zona corta y 0.02 para la zona larga, mientras que el valor mínimo es 0 para las zonas intermedias donde no hay datos.
+
+Estos resultados indican que el géiser Old Faithful tiene dos modos distintos de funcionamiento, uno más rápido y otro más lento, en donde los valores de densidad reflejan la frecuencia relativa de cada modo y sugieren que el modo rápido es más común que el modo lento.
