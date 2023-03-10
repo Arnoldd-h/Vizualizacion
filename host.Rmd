@@ -114,3 +114,24 @@ El gráfico de la Relación entre peso y consumo de combustible, muestra una ten
 El coeficiente de correlación es un número entre -1 y 1 que indica el grado y la dirección de la relación lineal entre dos variables. Un valor cercano a -1 significa una relación negativa fuerte, es decir, que cuando una variable aumenta la otra disminuye. Un valor cercano a 1 significa una relación positiva fuerte, es decir, que cuando una variable aumenta la otra también aumenta. Un valor cercano a 0 significa una relación débil o nula, es decir, que no hay una tendencia clara entre las variables.
 
 En este caso, el coeficiente de correlación para cada grupo de cilindros es negativo y significativo (p < 0.05), lo que indica que hay una relación negativa moderada o fuerte entre el peso y las millas por galón para cada grupo. Esto se puede ver también en la pendiente de las líneas de regresión, que son negativas para cada grupo.
+
+
+## Gráfico de puntos
+```{r}
+dt <- ggdotplot(ToothGrowth, x = "dose", y = "len", 
+                color = "dose", 
+                palette = "jco", 
+                binwidth = 1) +
+      # Añadir nombres a los ejes y un título al gráfico
+      labs(x = "Dosis de vitamina C (mg)",
+           y = "Longitud del diente (mm)", 
+           title = "Efecto de la vitamina C en el crecimiento del diente")+
+      # para definir una paleta de colores
+         scale_color_manual(values = c( "blue","green", "black"))
+dt 
+```
+
+La gráfica presenta el efecto de la vitamina C en el crecimiento dental de cobayos. La variable x representa la dosis de vitamina C administrada en miligramos (mg), la variable y indica la longitud del diente en milímetros (mm) y el color indica el método de administración (jugo de naranja o ácido ascórbico). En donde se evidencia que existe una relación positiva entre la dosis de vitamina C y la longitud del diente, lo que indica que a medida que aumenta la dosis, también lo hace el crecimiento dental.
+
+El método de administración no parece tener un efecto significativo en la longitud del diente, ya que los puntos de ambos colores se superponen en gran medida.
+La longitud del diente muestra mayor variabilidad en las dosis más bajas (0.5 y 1 mg) en comparación con la dosis más alta (2 mg).
