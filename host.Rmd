@@ -135,3 +135,47 @@ La gráfica presenta el efecto de la vitamina C en el crecimiento dental de coba
 
 El método de administración no parece tener un efecto significativo en la longitud del diente, ya que los puntos de ambos colores se superponen en gran medida.
 La longitud del diente muestra mayor variabilidad en las dosis más bajas (0.5 y 1 mg) en comparación con la dosis más alta (2 mg).
+
+## Gráfica de Relación no lineal y oscilante  con zoom en la región baja 
+```{r}
+# Se establece una semilla para la generación de números aleatorios
+set.seed(42)  
+
+# Se establece el tamaño de la muestra
+n <- 1000  
+
+# Se generan los valores de x y y
+x <- runif(n) * 3  # Valores aleatorios uniformes entre 0 y 3
+y <- x * sin(1/x) + rnorm(n) / 25  # Función no lineal de x, más ruido normal
+
+# Se crea un data frame con las variables x e y
+df <- data.frame(x = x, y = y)  
+
+# Se crea la primera gráfica
+p1 <- ggplot(df, aes(x, y)) +
+  geom_point(alpha = 0.3) +  # Se agrega puntos con transparencia
+  geom_smooth(se = FALSE) +  # Se agrega una curva de ajuste suavizado
+  theme_bw()  # Se aplica un tema de gráfica en blanco y negro
+
+# Se crea la segunda gráfica con un rango de ejes más limitado
+p2 <- ggplot(df, aes(x, y)) +
+  geom_point(alpha = 0.3) +  # Se agrega puntos con transparencia
+  geom_smooth(se = FALSE) +  # Se agrega una curva de ajuste suavizado
+  scale_x_continuous(limits = c(0, 0.5)) +  # Se establece el límite inferior y superior del eje x
+  scale_y_continuous(limits = c(-0.3, 0.6)) +  # Se establece el límite inferior y superior del eje y
+  labs(x = NULL, y = NULL) +  # Se eliminan las etiquetas de los ejes
+  theme_bw()  # Se aplica un tema de gráfica en blanco y negro
+
+# Se combinan las dos gráficas usando annotation_custom()
+pt<- p1 + annotation_custom(ggplotGrob(p2), xmin = 1, xmax = 3, ymin = -0.3, ymax = 0.6)+
+  
+  labs(title = "Relación no lineal y oscilante entre x-y con zoom en la región baja x")
+pt
+
+```
+
+La gráfica  muestra la relación entre dos variables X y Y generadas aleatoriamente. La variable x tiene valores entre 0 y 3 y la variable y depende de x y de un error normal. La gráfica tiene dos partes:
+
+La parte grande muestra todos los puntos (x, y) con una transparencia de 0.3 y una línea suavizada que ajusta la tendencia general. Se observa que la relación entre x e y es no lineal y oscilante, con mayor variabilidad para valores pequeños de x.
+
+La parte pequeña muestra un zoom de la región donde x está entre 0 y 0.5 e y está entre -0.3 y 0.6. Se elimina el nombre de los ejes para evitar redundancia. Se aprecia mejor el patrón sinusoidal de la relación entre x e y.
