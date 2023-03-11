@@ -1,8 +1,10 @@
-# Vizualizacion
+<p align="center">
+  <img src="https://readme-typing-svg.herokuapp.com?font=comfortaa&color=016EEA&size=24&width=500&lines=📊+👨🏻‍💻Visualización+📶+✅">
+</p>
 
 Este repositorio replican y analizan algunas gráficas que muestran la relación entre diferentes variables usando datos preinstalados en R.
 
-### Data utilizada
+### 📖  Data utilizada
 
 
 -**ToothGrowth:** contiene la longitud de los odontoblastos (células responsables del crecimiento dental) en 60 cobayos. Cada animal recibió uno de tres niveles de dosis de vitamina C (0.5, 1 y 2 mg/día) por uno de dos métodos de entrega, jugo de naranja o ácido ascórbico (una forma de vitamina C y codificada como VC). Tiene 60 observaciones y 3 variables: len (longitud del diente), supp (tipo de suplemento) y dose (dosis de vitamina C).
@@ -14,7 +16,7 @@ Este repositorio replican y analizan algunas gráficas que muestran la relación
 
 -**Gapminder**, que es un conjunto de datos ampliamente utilizado en la enseñanza y la investigación de la ciencia de datos.Este conjunto de datos contiene información sobre la expectativa de vida, la población y el ingreso per cápita de diferentes países del mundo, en diferentes momentos entre 1952 y 2007. El conjunto de datos incluye información sobre 142 países diferentes.
 
-### Librerias utilizadas 
+### 🗄️ Librerias utilizadas 
 | Librería | Descripción |
 | --- | --- |
 | ggpubr | Librería para crear gráficos elegantes con ggplot2 |
@@ -26,9 +28,9 @@ Este repositorio replican y analizan algunas gráficas que muestran la relación
 | ggrepel | Librería para evitar la superposición de etiquetas de texto en los gráficos |
 | dplyr | Librería para manipular datos con funciones verbales |
 
-Los resultados de las gráficas se albergan en la carpeta plots.
+💾 Los resultados de las gráficas se albergan en la carpeta plots.
 
-### Equipo utilizado
+### 💻 Equipo utilizado
 | Nombre del dispositivo | DESKTOP-IQK1H8T |
 | --- | --- |
 | Procesador | Intel(R) Core(TM) i7-8550U CPU @ 1.80GHz   2.00 GHz |
@@ -39,5 +41,7 @@ Los resultados de las gráficas se albergan en la carpeta plots.
 | Lápiz y entrada táctil | Compatibilidad con entrada manuscrita |
 |Sistema operativo | Windows 11 Home Single Language | 
 
-
+<div id="header" align="center">
+    <img src="https://media.giphy.com/media/FSzLVme5Y3n3LMOiqP/giphy.gif" width="200" />
+</div
 
