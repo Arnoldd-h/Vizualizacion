@@ -12,7 +12,7 @@ Arnoldd Hernández  - `arnoldd.hernandez@est.ikiam.edu.ec`
 
 ## Librerias
 ```{r, results='hide'}
-library(ggpubr); library(patchwork); library(ggplot2); library(grid); library(cowplot);library(gridExtra); library(ggrepel)
+library(ggpubr); library(patchwork); library(ggplot2); library(grid); library(cowplot);library(gridExtra); library(ggrepel); library(dplyr)
 
 ```
 
@@ -223,7 +223,6 @@ Estos resultados indican que el géiser Old Faithful tiene dos modos distintos d
 #Grafica compuesta
 
 
-
 ```{r, results='hide'}
 pdf("plots/multiplot.pdf")
 par(mfrow=c(3,1)) # 3 filas y 1 columna
@@ -237,4 +236,78 @@ plot(hm)
 dev.off()
 ```
 
+## Gráfica embebida
+
+Para la realización de esta gráfica se utilizó el conjunto de datos "Gapminder", que es un conjunto de datos ampliamente utilizado en la enseñanza y la investigación de la ciencia de datos.
+
+Este conjunto de datos contiene información sobre la expectativa de vida, la población y el ingreso per cápita de diferentes países del mundo, en diferentes momentos entre 1952 y 2007. El conjunto de datos incluye información sobre 142 países diferentes.
+
+Este conjunto de datos es interesante para explorar patrones y tendencias en el desarrollo humano en todo el mundo a lo largo del tiempo. Además, es comúnmente utilizado como un ejemplo en la enseñanza de la visualización de datos y técnicas de análisis de datos en la ciencia de datos.
+
+- Gapminder. (2008). Gapminder World 2008 (v. 1.0) [Data set]. https://www.gapminder.org/data/
+
+```{r}
+library(dplyr); library(ggplot2); library(grid)
+library(gridExtra); library(ggrepel)
+```
+
+
+```{r}
+# Para cargar la data, lo que deseamos visualizar
+ruta <- "https://raw.githubusercontent.com/martintinch0/CienciaDeDatosParaCuriosos/master/data/gapminder.csv"
+df_gapminder <- read.table(file = ruta, sep=';', header = TRUE, stringsAsFactors = FALSE)
+```
+
+```{r}
+# Para crear la gráfica principal con todos los países
+p1 <- df_gapminder %>% 
+  filter(year == 2007) %>% 
+  ggplot(aes(x = gdpPercap, y = lifeExp, size = pop, color = continent)) +
+  geom_point() + 
+  labs(x = "Ingreso promedio (USD)",
+       y = "Expectativa de vida al nacer (años)",
+       title="Esperanza de vida debido al ingreso promedio - 2007",
+       caption="Fuente: Gapminder",
+       color="Continente: ") +
+#Theme, tema
+  theme(legend.position="bottom", 
+        legend.title = element_text(face = "bold", color = "black", size= 10), 
+        panel.background = element_rect(fill = "white", colour = "grey80"), 
+        panel.grid.major = element_line(colour = "grey90", linetype = "dotted"))
+p1
+```
+```{r}
+# Para crear la gráfica secundaria con solo algunos países
+p2 <- df_gapminder %>% 
+  filter(year == 2007) %>% 
+  ggplot(aes(x = gdpPercap, y = lifeExp, size = pop, color = continent)) +
+  geom_point() + 
+  geom_label_repel(aes(label = country), box.padding = 0.35, point.padding = 0.5, arrow = arrow(length = unit(0.02, "npc")))+
+  labs(x = NULL, y = NULL) + 
+  theme(legend.position = "null")
+```
+
+```{r}
+# Dibujar la gráfica principal
+p1
+
+# Crear una región en la esquina superior derecha con viewport
+vp <- grid::viewport(x = .57,
+                     y = .5,
+                     width = .5,
+                     height = .4)
+# Dibujar la gráfica secundaria dentro de esa región con grid.draw
+grid::grid.draw(grid::grobTree(grid::rectGrob(gp=grid::gpar(fill="white", alpha=0.5)),
+                               vp=vp,
+                               ggplotGrob(p2)))
+
+```
+
+La gráfica muestra la relación entre el PIB per cápita, la esperanza de vida y la población de los países del mundo en el año 2007, agrupados por continente. La gráfica principal usa puntos de diferentes tamaños y colores para representar estos datos, mientras que la gráfica secundaria usa etiquetas con flechas para identificar algunos países. La gráfica secundaria se dibuja dentro de una región más pequeña y transparente sobre la gráfica principal usando las funciones `viewport` y `grid.draw`
+La gráfica resultante permite observar algunas tendencias interesantes, como por ejemplo:
+
++ Hay una correlación positiva entre el PIB per cápita y la esperanza de vida: los países más ricos suelen vivir más años que los más pobres.
+
++ Hay una gran variabilidad dentro de cada continente: por ejemplo, en África hay países con muy bajo PIB per cápita y esperanza de vida (como Congo o Sierra Leona) y otros con valores más altos (como Sudáfrica o Gabón).
++ Hay una relación inversa entre el tamaño de la población y el PIB per cápita: los países más poblados suelen ser más pobres que los menos poblados. Esto se aprecia especialmente en Asia, donde hay países muy grandes y pobres (como China o India) y otros muy pequeños y ricos (como Singapur o Qatar).
 
